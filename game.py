@@ -128,7 +128,7 @@ def eval_genomes(genomes,config):
                     while snake_body.count(food) > 0:
                         food = (random.randint(0,width/block_size - 1)*block_size,\
                                 random.randint(0,height/block_size - 1)*block_size)
-            else: # If not spawn new food
+            else: # If food not eaten, advance hunger and remove tail
                 hunger -= 1
                 snake_body.pop() # Remove last block of snake
 
