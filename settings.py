@@ -6,6 +6,7 @@ width = 200
 height = 200
 block_size = 20
 world_size = (width * height) // (block_size * block_size)
+obstacle_count = 8
 
 # Visuals
 snake_color = (0,175,0)
