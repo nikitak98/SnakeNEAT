@@ -2,13 +2,14 @@ import numpy as np
 
 from settings import *
 
-def look_direction(direction,snake,food):
+def look_direction(direction, snake, food, obstacles=None):
 
     (x_direction,y_direction) = dxdy_eight(direction)
 
     distance_to_wall = 0.0
     distance_to_food = np.inf
     distance_to_body = np.inf
+    distance_to_obstacle = np.inf
 
     total_distance = 0.0
     distance = 1.0
@@ -20,6 +21,8 @@ def look_direction(direction,snake,food):
 
     food_found = False
     body_found = False
+    obstacle_found = False
+    obstacle_set = set(obstacles) if obstacles else set()
 
     while current_x < width and current_x >= 0 and current_y < height and current_y >= 0:
         if not food_found and (current_x,current_y) == food:
@@ -28,6 +31,9 @@ def look_direction(direction,snake,food):
         if not body_found and (current_x,current_y) in snake:
             body_found = True
             distance_to_body = total_distance
+        if not obstacle_found and (current_x,current_y) in obstacle_set:
+            obstacle_found = True
+            distance_to_obstacle = total_distance
 
         distance_to_wall = total_distance
         current_x += block_size * x_direction
@@ -37,8 +43,9 @@ def look_direction(direction,snake,food):
     distance_to_wall = 1.0 / total_distance
     distance_to_food = 1.0 / distance_to_food
     distance_to_body = 1.0 / distance_to_body
+    distance_to_obstacle = 1.0 / distance_to_obstacle
 
-    return (distance_to_wall,distance_to_food,distance_to_body)
+    return (distance_to_wall, distance_to_food, distance_to_body, distance_to_obstacle)
 
 def dxdy_four(direction):
 
